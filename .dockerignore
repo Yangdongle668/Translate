@@ -1,0 +1,5 @@
+.git
+.github
+.env*
+client
+node_modules
