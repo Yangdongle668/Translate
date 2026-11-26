@@ -7,7 +7,7 @@ Windows 便携翻译客户端和可部署在海外服务器上的 HTTP 服务。
 服务器需要安装 Docker 和 Compose，并能访问 GitHub、Docker Hub 及 `translate.googleapis.com`。运行以下命令。 [Docker Compose 的 Git 配置支持](https://docs.docker.com/reference/cli/docker/compose/#using-a-git-repository)
 
 ```bash
-docker compose -f 'https://github.com/Yangdongle668/Translate.git#v1.0.1:compose.yaml' up -d --build --wait
+docker compose -f 'https://github.com/Yangdongle668/Translate.git#v1.0.2:compose.yaml' up -d --build --wait
 ```
 
 在云防火墙或安全组中允许客户端访问服务器的 TCP 3000 端口。仅供自己使用时，可以把来源限制为自己的公网 IP。

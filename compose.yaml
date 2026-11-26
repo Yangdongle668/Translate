@@ -7,9 +7,7 @@ services:
       TRANSLATE_ALLOW_ANONYMOUS: "true"
       TRANSLATE_API_TOKEN: "${TRANSLATE_API_TOKEN:-}"
     ports:
-      - target: 3000
-        published: "${PORT:-3000}"
-        host_ip: "${TRANSLATE_BIND_ADDRESS:-0.0.0.0}"
+      - "${TRANSLATE_BIND_ADDRESS:-0.0.0.0}:${PORT:-3000}:3000"
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/health"]
       interval: 10s
