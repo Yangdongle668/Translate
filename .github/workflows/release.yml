@@ -12,10 +12,12 @@ jobs:
     name: Verify Docker deployment
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy from GitHub with Compose
+      - name: Deploy using the published script
+        env:
+          TRANSLATE_REF: ${{ github.ref_name }}
         run: |
-          git clone --depth 1 --branch "$GITHUB_REF_NAME" "https://github.com/${GITHUB_REPOSITORY}.git" deployment
-          docker compose -f deployment/compose.yaml up -d --build --wait --wait-timeout 90
+          curl -fsSL "https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_REF_NAME}/deploy.sh" -o deploy.sh
+          bash deploy.sh
       - name: Check health and unauthenticated translation
         run: |
           node --input-type=module <<'JS'
@@ -41,8 +43,8 @@ jobs:
           }
           JS
       - name: Show deployment logs
-        if: failure()
-        run: docker compose -f deployment/compose.yaml logs
+        if: failure() && hashFiles('Translate/compose.yaml') != ''
+        run: docker compose -f Translate/compose.yaml logs
 
   windows:
     name: Build and publish Windows client
