@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Deploy from GitHub with Compose
         run: |
-          docker compose -f "https://github.com/${GITHUB_REPOSITORY}.git#${GITHUB_REF_NAME}:compose.yaml" up -d --build --wait --wait-timeout 90
+          git clone --depth 1 --branch "$GITHUB_REF_NAME" "https://github.com/${GITHUB_REPOSITORY}.git" deployment
+          docker compose -f deployment/compose.yaml up -d --build --wait --wait-timeout 90
       - name: Check health and unauthenticated translation
         run: |
           node --input-type=module <<'JS'
@@ -41,7 +42,7 @@ jobs:
           JS
       - name: Show deployment logs
         if: failure()
-        run: docker compose -f "https://github.com/${GITHUB_REPOSITORY}.git#${GITHUB_REF_NAME}:compose.yaml" logs
+        run: docker compose -f deployment/compose.yaml logs
 
   windows:
     name: Build and publish Windows client

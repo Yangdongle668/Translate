@@ -4,21 +4,16 @@ Windows 便携翻译客户端和可部署在海外服务器上的 HTTP 服务。
 
 ## 在海外服务器一键部署
 
-服务器需要安装 Docker 和 Compose，并能访问 GitHub、Docker Hub 及 `translate.googleapis.com`。运行以下命令。 [Docker Compose 的 Git 配置支持](https://docs.docker.com/reference/cli/docker/compose/#using-a-git-repository)
+服务器需要安装 Git、Docker 和 Compose，并能访问 GitHub、Docker Hub 及 `translate.googleapis.com`。首次部署时执行以下命令。
 
 ```bash
-docker compose -f 'https://github.com/Yangdongle668/Translate.git#v1.0.2:compose.yaml' up -d --build --wait
+git clone --depth 1 --branch v1.0.3 https://github.com/Yangdongle668/Translate.git && \
+  docker compose -f Translate/compose.yaml up -d --build --wait
 ```
 
 在云防火墙或安全组中允许客户端访问服务器的 TCP 3000 端口。仅供自己使用时，可以把来源限制为自己的公网 IP。
 
-如果 Compose 版本只支持本地配置文件，先克隆仓库再启动。
-
-```bash
-git clone https://github.com/Yangdongle668/Translate.git
-cd Translate
-docker compose up -d --build --wait
-```
+已下载源码时，可以在项目根目录运行 `docker compose up -d --build --wait`。
 
 用以下命令在服务器上验证翻译。成功时会返回包含 `translatedText` 的 JSON。Google 可能对非官方端点限流。
 
